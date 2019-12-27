@@ -42,6 +42,23 @@ TEST(Duration, elapsedInMilliSeconds) {
 }
 
 
+TEST(Duration, elapsedInMicroSeconds) {
+    Duration dur;
+    for (int i = 0; i < 100; i++) {
+        dur.reset();
+        auto start = std::chrono::steady_clock::now();
+        usleep(10);   // Sleep for 5 us
+        auto diff = std::chrono::steady_clock::now() - start;
+        dur.pause();
+
+        // Allow 1us difference
+        ASSERT_LE(std::chrono::duration_cast<std::chrono::microseconds>(diff).count(),
+                  dur.elapsedInUSec()) << "Inaccuracy in iteration " << i;
+        ASSERT_GE(std::chrono::duration_cast<std::chrono::microseconds>(diff).count() + 1,
+                  dur.elapsedInUSec()) << "Inaccuracy in iteration " << i;
+    }
+}
+
 int main(int argc, char** argv) {
     testing::InitGoogleTest(&argc, argv);
     folly::init(&argc, &argv, true);
