@@ -47,7 +47,7 @@ TEST(Duration, elapsedInMicroSeconds) {
     for (int i = 0; i < 100; i++) {
         dur.reset();
         auto start = std::chrono::steady_clock::now();
-        usleep(10);   // Sleep for 5 us
+        usleep(15);   // Sleep for 5 us
         auto diff = std::chrono::steady_clock::now() - start;
         dur.pause();
 
